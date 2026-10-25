@@ -5,13 +5,16 @@
 <title>Apuração 2026 · Presidente · 2º turno</title>
 <meta name="description" content="Segundo turno para presidente em 25 de outubro de 2026: dados do TSE, apuração por estado e mapa 3D do Brasil.">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%23111f32'/%3E%3Cpath d='M8 17l5 5L24 10' fill='none' stroke='%23f7cc46' stroke-width='4'/%3E%3C/svg%3E">
-<link rel="stylesheet" href="./styles.css"><script type="importmap">{"imports":{"three":"./assets/vendor/three.module.js"}}</script><script type="module" src="./app.js"></script><script type="module" src="./presence.js"></script>
+<link rel="stylesheet" href="./styles.css?v=stf-notice-1"><script type="importmap">{"imports":{"three":"./assets/vendor/three.module.js"}}</script><script type="module" src="./app.js"></script><script type="module" src="./presence.js"></script>
 </head>
 <body>
 <header><div class="header-inner"><a class="brand" href="./"><span class="brand-icon">✓</span> APURAÇÃO <strong>2026</strong></a><span class="edition">25 OUTUBRO <b>2º TURNO</b></span><a class="tse-link" href="https://resultados.tse.jus.br/oficial/app/index.html" target="_blank" rel="noopener noreferrer">Fonte: TSE ↗</a></div></header>
 <main>
 <div class="title-row"><div><p class="eyebrow">ELEIÇÕES PRESIDENCIAIS · BRASIL</p><h1>O Brasil decide.</h1><p class="subtitle">Acompanhe os votos, estado por estado.</p></div><div class="live-controls"><span id="connection" class="connection">Consultando TSE</span><span id="online-visitors" class="online-visitors" hidden title="Navegadores com esta página ativa no último minuto. Abas do mesmo navegador contam uma vez."><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" aria-hidden="true"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2m20 0v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/><circle cx="9" cy="7" r="4"/></svg><span id="online-count" aria-live="polite"></span></span><button id="refresh" class="button" type="button">↻ Atualizar agora</button></div></div>
+<div class="notice-stack" aria-label="Avisos">
+<p id="stf-notice" class="notice notice--danger" role="alert">As apurações foram adiadas para as 19h (horário de Brasília), por decisão do STF. Os números só serão atualizados quando o TSE publicar novos arquivos oficiais.</p>
 <div id="notice" class="notice" role="status" hidden></div>
+</div>
 <section aria-label="Apuração nacional" class="national"><div class="national-progress"><div class="label">SEÇÕES TOTALIZADAS · BRASIL</div><strong id="national-pct" class="big-number">—</strong><div class="progress"><span id="national-bar"></span></div><p id="national-count">Consultando os arquivos oficiais…</p><p id="national-time" class="muted">Horário de Brasília</p></div><div id="national-candidates" class="national-candidates"><p class="muted">Aguardando candidatos do TSE…</p></div></section>
 <div class="section-heading"><div><p class="eyebrow">O VOTO NO TERRITÓRIO</p><h2>Um país. 27 resultados.</h2></div><span id="state-coverage" class="muted">Consultando estados e Distrito Federal</span></div>
 <section class="map-layout" aria-label="Mapa e resultado por estado">
