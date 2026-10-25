@@ -1,25 +1,33 @@
-# Apuração 2026 · São Paulo
+# Apuração 2026 · Presidente · Segundo turno
 
-[**Abrir o painel**](https://williamccampos.github.io/eleicoes-2026/)
+[**Abrir o painel público**](https://williamccampos.github.io/eleicoes-2026/)
 
-Página HTML independente para acompanhar os resultados oficiais do TSE no **primeiro turno de 04/10/2026**, com fotos dos candidatos.
+Painel independente para o segundo turno presidencial de **25/10/2026**, com os dados e as fotos oficiais do TSE. Consulta o resultado nacional e as 27 unidades da Federação a cada 30 segundos enquanto a página está visível, com atualização manual e retomada ao retornar à página.
 
-- Presidente da República: resultado nacional ou votos de São Paulo.
-- Governador, senadores, deputados federais e deputados estaduais: São Paulo.
-- Consulta automática ao TSE a cada 30 segundos enquanto a página estiver visível, além do botão de atualização manual.
-- Horário de geração do arquivo exibido em cada cargo. Consultas novas podem retornar o mesmo resultado, dependendo da divulgação do TSE.
-- Busca por nome, número ou partido nas listas de deputados.
+## Visualização
 
-Os dados e as fotos são consultados diretamente nos arquivos públicos do [TSE](https://resultados.tse.jus.br/oficial/app/index.html). O painel mostra indisponibilidade quando uma consulta falha e mantém o último resultado recebido com seu horário original. A ordem de votos dos deputados não confirma a eleição: a distribuição de vagas depende do sistema proporcional.
+- Placar nacional com fotos, votos válidos e percentuais dos dois candidatos.
+- Mapa 3D real, com estados extrudados, rotação, aproximação e seleção por clique.
+- A cor identifica o candidato que lidera; sua intensidade aumenta com a diferença em pontos percentuais (saturação em 50 p.p.). A altura acompanha o percentual de seções totalizadas.
+- Cinza indica ausência de votos válidos ou de dados; amarelo indica empate. Não há atribuição de liderança antes dos primeiros votos.
+- Mapa 2D selecionável por teclado, também usado quando o navegador não oferece WebGL.
+- Detalhes de cada estado, pesquisa por nome ou sigla e ordenação por apuração ou vantagem.
+- Horário original de cada arquivo, avisos de indisponibilidade e preservação do último resultado recebido. Lideranças parciais não confirmam vitória.
 
-## Hospedagem
+O total nacional inclui votos do exterior; o mapa e a tabela mostram os 26 estados e o Distrito Federal. A página exibe somente presidente neste turno.
 
-O [repositório público](https://github.com/williamccampos/eleicoes-2026) é publicado pelo GitHub Pages a partir da branch `main`, pasta raiz. Basta atualizar `index.html` e enviar a alteração para essa branch. Nenhum computador ou servidor local precisa ficar ligado.
+## Fontes
 
-O arquivo `.nojekyll` permite servir a página HTML diretamente. Os arquivos da hospedagem anterior e as capturas de tela locais não fazem parte desta publicação.
+A configuração da eleição é resolvida em `https://resultados.tse.jus.br/oficial/comum/config/ele-c.json`, selecionando a data `25/10/2026`, turno `2` e cargo `1`. Cada arquivo recebido é validado por eleição, turno, ambiente oficial e abrangência. **Não há fallback para o primeiro turno nem dados de votação fictícios.** Os arquivos podem estar zerados antes da divulgação dos votos.
 
-Para abrir localmente, execute `python3 -m http.server 8766` na pasta do projeto e acesse `http://localhost:8766/`.
+- [Resultados oficiais do TSE](https://resultados.tse.jus.br/oficial/app/index.html).
+- [Malha simplificada oficial do IBGE](https://servicodados.ibge.gov.br/api/v3/malhas/paises/BR?intrarregiao=UF&formato=application/vnd.geo%2Bjson&qualidade=minima), obtida em 25/10/2026 e servida localmente em `assets/brasil-uf-ibge.geojson`.
+- [Three.js](https://threejs.org/) 0.186.1, distribuído localmente em `assets/vendor/`, com licença MIT preservada em `THREE-LICENSE.txt`. Não depende de CDN para carregar o mapa.
 
-## Segundo turno
+## Hospedagem e execução local
 
-Esta publicação permanece no **primeiro turno**. A mudança para o segundo turno será feita quando solicitada, ajustando a configuração da eleição, os cargos aplicáveis, os candidatos e as fotos conforme os arquivos oficiais do TSE. Não há mudança automática de turno.
+O [repositório público](https://github.com/williamccampos/eleicoes-2026) usa GitHub Pages: branch `main`, pasta raiz, com `.nojekyll`. Os arquivos `index.html`, `styles.css`, `app.js`, `data.js`, `map.js` e a pasta `assets/` devem ser publicados juntos. Não há etapa de build nem servidor de aplicação.
+
+Para executar localmente: `python3 -m http.server 8766`, depois abra `http://localhost:8766/`. Módulos JavaScript precisam de HTTP; abrir o HTML com `file://` não é suficiente.
+
+O projeto Sites mantém a mesma aplicação estática em `painel/dist/client/`, com acesso independente do repositório público. A pasta `painel/`, as credenciais da hospedagem e as capturas de tela locais não são publicadas no GitHub. A versão do primeiro turno permanece no histórico Git.
