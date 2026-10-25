@@ -3,9 +3,11 @@ import { sessionId } from './session.js';
 const COOLDOWN_MS = 10_000;
 const POLL_MS = 1500;
 
+const PRODUCTION_REACTIONS_API = 'https://eleicoes-2026-reactions.onrender.com';
+
 const API_BASE = (location.hostname === 'localhost' || location.hostname === '127.0.0.1')
   ? 'http://localhost:8791'
-  : 'https://quemtaganhando-presenca.willccampos.chatgpt.site';
+  : PRODUCTION_REACTIONS_API;
 
 const REACTIONS = [
   { id: 'surprise', emoji: '😮', label: 'Surpresa' },
@@ -72,6 +74,31 @@ function startCooldown(ms = COOLDOWN_MS) {
   scheduleCooldownTick();
 }
 
+let toastTimer = null;
+
+function showReactionToast(message, durationMs = 4200) {
+  let toast = document.getElementById('reaction-toast');
+  if (!toast) {
+    toast = document.createElement('div');
+    toast.id = 'reaction-toast';
+    toast.className = 'reaction-toast';
+    toast.setAttribute('role', 'status');
+    toast.setAttribute('aria-live', 'polite');
+    document.body.appendChild(toast);
+  }
+  toast.textContent = message;
+  toast.hidden = false;
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => {
+    toast.hidden = true;
+  }, durationMs);
+}
+
+function cooldownToastMessage(retryAfterMs = COOLDOWN_MS) {
+  const seconds = Math.max(1, Math.ceil(retryAfterMs / 1000));
+  return `Aguarde ${seconds}s antes de enviar outra reação.`;
+}
+
 function spawnFloating(reactionId) {
   if (!stage) return;
   const bubble = document.createElement('span');
@@ -91,7 +118,10 @@ function spawnFloating(reactionId) {
 }
 
 async function sendReaction(reactionId) {
-  if (remainingCooldown() > 0) return;
+  if (remainingCooldown() > 0) {
+    showReactionToast(cooldownToastMessage(remainingCooldown()));
+    return;
+  }
   const controller = new AbortController();
   const timeout = setTimeout(() => controller.abort(), 6000);
   try {
@@ -105,7 +135,9 @@ async function sendReaction(reactionId) {
     });
     if (response.status === 429) {
       const data = await response.json().catch(() => ({}));
-      startCooldown(Number(data.retryAfterMs) || COOLDOWN_MS);
+      const retryAfterMs = Number(data.retryAfterMs) || COOLDOWN_MS;
+      startCooldown(retryAfterMs);
+      showReactionToast(cooldownToastMessage(retryAfterMs));
       return;
     }
     if (!response.ok) throw new Error('send failed');
@@ -217,7 +249,10 @@ function wireUi() {
   if (!fab || !panel) return;
 
   fab.addEventListener('click', () => {
-    if (remainingCooldown() > 0) return;
+    if (remainingCooldown() > 0) {
+      showReactionToast(cooldownToastMessage(remainingCooldown()));
+      return;
+    }
     togglePanel();
   });
 

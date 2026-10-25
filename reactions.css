@@ -13,4 +13,7 @@
 .reaction-choice:hover{background:#eef3f9;border-color:#c9d5e4}
 .reaction-choice:focus-visible{outline:3px solid #1976cf;outline-offset:2px}
 @media(max-width:760px){.reaction-widget{right:16px;bottom:16px}.reaction-panel{width:min(260px,calc(100vw - 32px));grid-template-columns:repeat(4,minmax(0,1fr))}.reaction-stage{height:36vh}}
+.reaction-toast{position:fixed;left:50%;bottom:92px;z-index:96;max-width:min(360px,calc(100vw - 32px));padding:12px 16px;border-radius:10px;border:1px solid #e8c4c4;background:#fff5f5;color:#7a2424;font-size:13px;font-weight:650;line-height:1.45;text-align:center;box-shadow:0 12px 32px #111f3228;transform:translateX(-50%);pointer-events:none}
+.reaction-toast[hidden]{display:none!important}
+@media(max-width:760px){.reaction-toast{bottom:84px;font-size:12px}}
 @media(prefers-reduced-motion:reduce){.reaction-float{animation:none;opacity:0}}

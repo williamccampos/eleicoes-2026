@@ -1,0 +1,8 @@
+{
+  "name": "eleicoes-2026-reactions-api",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "start": "node server.mjs"
+  }
+}

@@ -1,3 +1,4 @@
+// Local dev: prefer `node reactions-api/server.mjs` (PORT=8791).
 import http from 'node:http';
 
 const PORT = Number(process.env.PORT) || 8791;

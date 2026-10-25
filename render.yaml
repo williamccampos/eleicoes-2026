@@ -1,0 +1,12 @@
+services:
+  - type: web
+    name: eleicoes-2026-reactions
+    runtime: node
+    plan: free
+    rootDir: reactions-api
+    buildCommand: ""
+    startCommand: node server.mjs
+    healthCheckPath: /health
+    envVars:
+      - key: REACTION_COOLDOWN_MS
+        value: "10000"
