@@ -29,6 +29,10 @@ let pollTimer = null;
 let cooldownTimer = null;
 let panelOpen = false;
 let apiOk = false;
+let apiEnabled = false;
+let probeTimer = null;
+const PROBE_MS = 60_000;
+const widget = document.querySelector('.reaction-widget');
 
 function reactionEmoji(id) {
   return emojiById.get(id) || '✨';
@@ -119,8 +123,52 @@ async function sendReaction(reactionId) {
   }
 }
 
+function setApiEnabled(enabled) {
+  apiEnabled = enabled;
+  if (widget) widget.hidden = !enabled;
+  if (stage) stage.hidden = !enabled;
+  if (!enabled) {
+    clearInterval(pollTimer);
+    pollTimer = null;
+    closePanel();
+    scheduleProbe();
+    return;
+  }
+  clearTimeout(probeTimer);
+  startPolling();
+}
+
+function scheduleProbe() {
+  clearTimeout(probeTimer);
+  probeTimer = setTimeout(probeApi, PROBE_MS);
+}
+
+async function probeApi() {
+  const controller = new AbortController();
+  const timeout = setTimeout(() => controller.abort(), 6000);
+  try {
+    const response = await fetch(`${API_BASE}/reactions/recent?since=0`, {
+      credentials: 'omit',
+      cache: 'no-store',
+      signal: controller.signal,
+    });
+    if (response.status === 404) {
+      setApiEnabled(false);
+      return;
+    }
+    if (!response.ok) throw new Error('probe failed');
+    setApiEnabled(true);
+    apiOk = true;
+    fab?.classList.remove('reaction-fab--offline');
+  } catch {
+    setApiEnabled(false);
+  } finally {
+    clearTimeout(timeout);
+  }
+}
+
 async function pollReactions() {
-  if (!apiOk && document.hidden) return;
+  if (!apiEnabled || document.hidden) return;
   const controller = new AbortController();
   const timeout = setTimeout(() => controller.abort(), 6000);
   try {
@@ -191,19 +239,23 @@ function wireUi() {
 }
 
 function startPolling() {
+  if (!apiEnabled) return;
   pollReactions();
   clearInterval(pollTimer);
   pollTimer = setInterval(pollReactions, POLL_MS);
-  document.addEventListener('visibilitychange', () => {
-    if (!document.hidden) pollReactions();
-  });
 }
 
 if (stage && fab && panel) {
+  if (widget) widget.hidden = true;
+  stage.hidden = true;
   panel.innerHTML = REACTIONS.map(r =>
     `<button type="button" class="reaction-choice" data-reaction="${r.id}" aria-label="${r.label}">${r.emoji}</button>`
   ).join('');
   wireUi();
-  startPolling();
   updateCooldownUi();
+  probeApi();
+  document.addEventListener('visibilitychange', () => {
+    if (!document.hidden && apiEnabled) pollReactions();
+    if (!document.hidden && !apiEnabled) probeApi();
+  });
 }
