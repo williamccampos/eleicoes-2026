@@ -1,6 +1,6 @@
 # Apuração 2026 · Presidente · Segundo turno
 
-[**Abrir o painel público**](https://williamccampos.github.io/eleicoes-2026/)
+[**Abrir o painel público**](https://quemtaganhando2turno.online/)
 
 Painel independente para o segundo turno presidencial de **25/10/2026**, com os dados e as fotos oficiais do TSE. Consulta o resultado nacional e as 27 unidades da Federação a cada 30 segundos enquanto a página está visível, com atualização manual e retomada ao retornar à página.
 
@@ -31,3 +31,19 @@ O [repositório público](https://github.com/williamccampos/eleicoes-2026) usa G
 Para executar localmente: `python3 -m http.server 8766`, depois abra `http://localhost:8766/`. Módulos JavaScript precisam de HTTP; abrir o HTML com `file://` não é suficiente.
 
 O projeto Sites mantém a mesma aplicação estática em `painel/dist/client/`, com acesso independente do repositório público. A pasta `painel/`, as credenciais da hospedagem e as capturas de tela locais não são publicadas no GitHub. A versão do primeiro turno permanece no histórico Git.
+
+## Domínio próprio
+
+Domínio principal: `quemtaganhando2turno.online`, registrado na Hostinger e vinculado ao GitHub Pages pelo arquivo `CNAME` na raiz. O endereço `www.quemtaganhando2turno.online` também aponta para o Pages.
+
+Registros DNS na Hostinger (TTL 300 segundos):
+
+| Tipo | Nome | Destino |
+| --- | --- | --- |
+| A | @ | 185.199.108.153 |
+| A | @ | 185.199.109.153 |
+| A | @ | 185.199.110.153 |
+| A | @ | 185.199.111.153 |
+| CNAME | www | williamccampos.github.io |
+
+O certificado HTTPS é emitido pelo GitHub Pages após a propagação do DNS. Preserve o arquivo `CNAME` nos próximos envios para manter a associação do domínio.
