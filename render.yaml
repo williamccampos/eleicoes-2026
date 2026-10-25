@@ -9,4 +9,4 @@ services:
     healthCheckPath: /health
     envVars:
       - key: REACTION_COOLDOWN_MS
-        value: "10000"
+        value: "0"

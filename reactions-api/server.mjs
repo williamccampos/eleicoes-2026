@@ -1,7 +1,7 @@
 import http from 'node:http';
 
 const PORT = Number(process.env.PORT) || 8791;
-const COOLDOWN_MS = Number(process.env.REACTION_COOLDOWN_MS) || 10_000;
+const COOLDOWN_MS = Number(process.env.REACTION_COOLDOWN_MS ?? 0);
 const EVENT_TTL_MS = 5 * 60_000;
 const MAX_EVENTS = 800;
 

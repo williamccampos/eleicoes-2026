@@ -1,6 +1,6 @@
 import { sessionId } from './session.js';
 
-const COOLDOWN_MS = 10_000;
+const COOLDOWN_MS = 0;
 const POLL_MS = 1500;
 
 const PRODUCTION_REACTIONS_API = 'https://eleicoes-2026-reactions.onrender.com';
