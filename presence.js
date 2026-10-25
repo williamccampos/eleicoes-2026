@@ -1,19 +1,12 @@
+import { sessionId } from './session.js';
+
 // Only aggregate counts are returned; inactive browser sessions expire after 60 seconds.
-const ENDPOINT = 'https://quemtaganhando-presenca.willccampos.chatgpt.site/presence';
+const ENDPOINT = (location.hostname === 'localhost' || location.hostname === '127.0.0.1')
+  ? 'http://localhost:8791/presence'
+  : 'https://quemtaganhando-presenca.willccampos.chatgpt.site/presence';
 const badge = document.getElementById('online-visitors');
 const label = document.getElementById('online-count');
-const KEY = 'quemtaganhando-online-session-v1';
-let fallbackId, busy = false;
-
-function sessionId() {
-  try {
-    const saved = JSON.parse(localStorage.getItem(KEY) || 'null');
-    if (/^[a-f0-9]{32}$/.test(saved?.id) && saved.expires > Date.now()) return saved.id;
-  } catch {}
-  const id = fallbackId ||= Array.from(crypto.getRandomValues(new Uint8Array(16)), b => b.toString(16).padStart(2, '0')).join('');
-  try { localStorage.setItem(KEY, JSON.stringify({ id, expires: Date.now() + 86400000 })); } catch {}
-  return id;
-}
+let busy = false;
 
 async function heartbeat() {
   if (!ENDPOINT || !badge || !label || busy || document.hidden) return;
