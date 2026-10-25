@@ -47,3 +47,9 @@ Registros DNS na Hostinger (TTL 300 segundos):
 | CNAME | www | williamccampos.github.io |
 
 O certificado HTTPS é emitido pelo GitHub Pages após a propagação do DNS. Preserve o arquivo `CNAME` nos próximos envios para manter a associação do domínio.
+
+## Pessoas online
+
+O indicador discreto ao lado do status do TSE consulta um serviço próprio de presença em `https://quemtaganhando-presenca.willccampos.chatgpt.site/presence`. Cada navegador ativo envia uma identificação aleatória a cada 20 segundos. Abas do mesmo navegador compartilham a identificação; registros sem atividade por 60 segundos deixam a contagem. A identificação local é renovada após 24 horas. Não é uma contagem de acessos acumulados nem uma identificação de pessoas únicas entre dispositivos.
+
+O serviço guarda somente a identificação aleatória e sua expiração; expurgos são feitos nas consultas seguintes. A API pública retorna apenas a contagem agregada, sem anúncios. Não altera dados do TSE e não usa o projeto Supabase do ByteMeal. Se o serviço ficar indisponível, o indicador é ocultado para evitar mostrar uma contagem incorreta. O código do serviço e a migração estão na pasta local `online-service/`, versionada separadamente no projeto Sites do contador.
