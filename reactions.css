@@ -1,0 +1,16 @@
+.reaction-stage{position:fixed;inset:auto 0 0;z-index:90;height:42vh;pointer-events:none;overflow:hidden}
+.reaction-float{position:absolute;bottom:12%;display:block;filter:drop-shadow(0 6px 14px #111f3230);animation:reaction-rise var(--duration,3.6s) ease-out forwards;will-change:transform,opacity}
+@keyframes reaction-rise{0%{opacity:0;transform:translate3d(0,0,0) scale(.7)}12%{opacity:1;transform:translate3d(0,-18px,0) scale(1)}100%{opacity:0;transform:translate3d(var(--drift,0),-min(38vh,320px),0) scale(1.08)}}
+.reaction-widget{position:fixed;right:22px;bottom:22px;z-index:95;display:flex;flex-direction:column;align-items:flex-end;gap:10px}
+.reaction-fab{position:relative;display:inline-flex;align-items:center;gap:8px;min-height:44px;padding:11px 16px;border:1px solid #d8e0e9;border-radius:999px;background:#fff;color:#24374f;font-size:12px;font-weight:750;box-shadow:0 10px 28px #111f3220}
+.reaction-fab:hover{background:#f5f8fc}
+.reaction-fab:disabled{opacity:.72;cursor:not-allowed}
+.reaction-fab--offline{border-color:#e8c4c4}
+.reaction-fab-icon{font-size:18px;line-height:1}
+.reaction-cooldown{position:absolute;top:-8px;right:-4px;min-width:28px;padding:2px 6px;border-radius:999px;background:#111f32;color:#fff;font-size:10px;font-weight:700;text-align:center}
+.reaction-panel{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px;width:min(280px,calc(100vw - 44px));padding:12px;border:1px solid var(--line,#e1e6ee);border-radius:12px;background:#fff;box-shadow:0 14px 36px #111f3228}
+.reaction-choice{display:grid;place-items:center;min-height:48px;border:1px solid #e3e9f0;border-radius:10px;background:#f8fafc;font-size:24px;line-height:1;cursor:pointer}
+.reaction-choice:hover{background:#eef3f9;border-color:#c9d5e4}
+.reaction-choice:focus-visible{outline:3px solid #1976cf;outline-offset:2px}
+@media(max-width:760px){.reaction-widget{right:16px;bottom:16px}.reaction-panel{width:min(260px,calc(100vw - 32px));grid-template-columns:repeat(4,minmax(0,1fr))}.reaction-stage{height:36vh}}
+@media(prefers-reduced-motion:reduce){.reaction-float{animation:none;opacity:0}}
